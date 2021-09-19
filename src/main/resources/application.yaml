@@ -1,0 +1,13 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: BILLING-SERVICE
+  h2:
+    console:
+      enabled: true
+  cloud:
+    discovery:
+      enabled: false
+  datasource:
+    url: jdbc:h2:mem:billing-db
