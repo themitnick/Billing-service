@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,7 +40,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceResDTO getInvoice(String invoiceId) {
 
         Invoice invoice = invoiceRepository.findById(invoiceId).get();
+        //Call customerRestClient to retrieve customer data
         Customer customer = customerRestClient.getCustomer(invoice.getCustomerId());
+        invoice.setInvoiceDate(new Date());
         invoice.setCustomer(customer);
         return invoiceMapper.invoiceToInvoiceResDTO(invoice);
     }
@@ -49,6 +53,18 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         return invoices.stream()
                 .map(invoice -> invoiceMapper.invoiceToInvoiceResDTO(invoice))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InvoiceResDTO> getAllInvoices() {
+        List<Invoice> invoices = invoiceRepository.findAll();
+        invoices.forEach(invoice -> {
+            Customer customer = customerRestClient.getCustomer(invoice.getCustomerId());
+            invoice.setCustomer(customer);
+        });
+        return invoices.stream()
+                .map( invoice -> invoiceMapper.invoiceToInvoiceResDTO(invoice))
                 .collect(Collectors.toList());
     }
 }

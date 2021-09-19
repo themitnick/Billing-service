@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Data
@@ -17,7 +17,7 @@ public class Invoice {
 
     @Id
     private String id;
-    private Instant invoiceDate;
+    private Date invoiceDate;
     private BigDecimal amount;
     private String customerId;
     @Transient

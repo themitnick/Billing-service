@@ -10,4 +10,5 @@ public interface InvoiceService {
     InvoiceResDTO save(InvoiceReqDTO invoiceReqDTO);
     InvoiceResDTO getInvoice(String invoiceId);
     List<InvoiceResDTO> invoiceByCustomerId(String customerId);
+    List<InvoiceResDTO> getAllInvoices();
 }
